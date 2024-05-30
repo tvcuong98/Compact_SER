@@ -123,9 +123,9 @@ def load_data(dataset, Normalize):
     tag2index = {tagset[i]:i for i in range(len(tagset))}
 
     for g in g_list:
-        g.node_features = torch.zeros(len(g.node_tags), len(g.g.node[0]['att']))
+        g.node_features = torch.zeros(len(g.node_tags), len(g.g.nodes[0]['att']))
         for i in range(len(g.node_tags)):
-                g.node_features[i] = torch.FloatTensor(g.g.node[i]['att'])
+                g.node_features[i] = torch.FloatTensor(g.g.nodes[i]['att'])
                 
     ### Normalizing
     if(Normalize):
@@ -136,7 +136,7 @@ def load_data(dataset, Normalize):
             g.node_features[:,:-2] = 2.*(g.node_features[:,:-2] - Min)/Ptp-1
             
     for g in g_list:
-        g.node_features2 = torch.zeros(len(g.node_tags), 2*len(g.g.node[0]['att']))
+        g.node_features2 = torch.zeros(len(g.node_tags), 2*len(g.g.nodes[0]['att']))
         for i in range(len(g.node_tags)):
             if(i == 0):
                 g.node_features2[i] = torch.cat([g.node_features[i], g.node_features[i]])

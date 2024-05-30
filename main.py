@@ -146,7 +146,7 @@ def main():
     ##10-fold cross validation. Conduct an experiment on the fold specified by args.fold_idx.
     train_graphs, test_graphs = separate_data(graphs, args.seed, args.fold_idx)
 
-    A = nx.to_numpy_matrix(train_graphs[0][0].g)
+    A = nx.to_numpy_array(train_graphs[0][0].g)
     if(args.graph_type == 'cycle'):
         A[0, -1] = 1
         A[-1, 0] = 1
