@@ -75,8 +75,15 @@ class GraphConv_Ortega(nn.Module):
             Laplacian = deg_mat - A_norm
             Laplacian_norm = frac_degree.matmul(Laplacian.matmul(frac_degree))
             
-            landa, U = torch.eig(Laplacian_norm,eigenvectors=True)
-    
+            # landa, U = torch.eig(Laplacian_norm,eigenvectors=True)
+            # print(U)
+            # landa, U=torch.linalg.eig(Laplacian_norm)
+            # print(U)
+            landa_complex, U_complex = torch.linalg.eig(Laplacian_norm)
+
+            # If only the real part is needed
+            landa = landa_complex.real
+            U = U_complex.real
             repeated_U_t = U.t().repeat(b, 1, 1)
             repeated_U = U.repeat(b, 1, 1)
         else:

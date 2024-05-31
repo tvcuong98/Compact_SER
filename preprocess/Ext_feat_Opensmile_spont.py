@@ -1,3 +1,37 @@
+"""
+Imports
+numpy, os, sys, csv: Standard libraries for numerical operations, file and system operations, and CSV file handling.
+torch: PyTorch library for tensor operations.
+Function Definition
+csv_reader(add): Reads a CSV file and returns the data as a NumPy array, excluding the first two columns.
+Data and Configuration
+emotions_used: Maps emotions to numerical labels.
+emotions_used_comp: Alternative emotion label mapping (not used in the code).
+data_path: Path to the dataset.
+sessions: List of session directories to process.
+framerate: Sample rate for audio files (16000 Hz).
+Label, Data: Lists to store processed labels and data.
+fix_len: Fixed length for splitting MFCC features (120 frames).
+exe_opensmile: Path to the OpenSMILE executable for feature extraction.
+path_config: Path to the OpenSMILE configuration file.
+Main Processing Loop
+The main loop iterates over each session and processes each file containing emotion labels:
+
+Path Setup: Constructs paths for emotion labels and audio files.
+Read Emotion Labels: Opens the emotion label file and reads line by line.
+Label Filtering: Filters lines with valid emotion labels (not 'xxx' and present in emotions_used).
+Feature Extraction:
+Constructs the input and output filenames.
+Calls OpenSMILE to extract MFCC features and save them to a CSV file.
+Read Features: Reads the MFCC features from the CSV file using csv_reader.
+Label Assignment: Assigns the numerical label to the emotion.
+Spontaneity Feature:
+Adds a spontaneity feature based on whether the recording is 'improvised' or 'scripted'.
+spont_feat is a tensor indicating spontaneity (one-hot encoded).
+Feature Concatenation: Concatenates the MFCC features and spontaneity features.
+Split Features: Splits the MFCC features into segments of length fix_len and appends to Data and Label.
+"""
+
 import numpy as np
 import os
 import sys
