@@ -92,20 +92,25 @@ def load_data(dataset, Normalize):
                 assert len(g) == n
 
             g_list.append(S2VGraph(g, l, node_tags))
-
+    # now g_list is a list of 14512 S2VGraph
     #add labels and edge_mat       
     for g in g_list:
-        g.neighbors = [[] for i in range(len(g.g))]
+        g.neighbors = [[] for i in range(len(g.g))] # len(g.g) = 120 the number of nodes in each graph
+        # [[],[],[],......,[]] list of 120 sublists, each sublist have elements equals to the number of neighboring nodes  # g.g is a graph object by Networkx
         for i, j in g.g.edges():
             g.neighbors[i].append(j)
             g.neighbors[j].append(i)
-        degree_list = []
+        # [[1],[0,2],....,[117,119],[118]] # this means that node 0 have only node 1 being its neighbor
+                                     #                 node 1 have node 1 and node 2 being its neighbor
+                                     #                 node 118 have node 117 and node 119 being its neighbor
+                                     #                 node 119 have node 118 being its only neighbor
+        degree_list = [] # len 120 , counting the degree for each of the 120 nodes
         for i in range(len(g.g)):
             g.neighbors[i] = g.neighbors[i]
             degree_list.append(len(g.neighbors[i]))
-        g.max_neighbor = max(degree_list)
+        g.max_neighbor = max(degree_list) # what is the max degree a node in a graph have
 
-        g.label = label_dict[g.label]
+        g.label = label_dict[g.label] # map the current label to the cooresponding value in label dict
 
         edges = [list(pair) for pair in g.g.edges()]
         edges.extend([[i, j] for j, i in edges])
